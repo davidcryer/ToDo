@@ -1,5 +1,8 @@
 package com.davidcryer.todo.common
 
-class Task constructor() {
+import java.util.*
+
+class Task(val id: UUID, val title: String) {
+
 
 }
