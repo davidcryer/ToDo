@@ -8,10 +8,10 @@ class TaskActivity : SimpleAppBarActivity() {
     private val FRAGMENT_LIST = "list"
 
     override fun addInitialFragment() {
-        add(FRAGMENT_LIST, { TasksFragment() })
+        add(FRAGMENT_LIST) { TasksFragment() }
     }
 
     override fun setupActionBar(actionBar: ActionBar) {
-        actionBar.title = "Fuck"
+
     }
 }
