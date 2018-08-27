@@ -2,12 +2,14 @@ package com.davidcryer.todo.list
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.davidcryer.todo.common.Task
 import com.davidcryer.todo.common.TaskListener
 import com.davidcryer.todo.common.TaskManager
 import java.util.*
 
 class UiTask(private val id: UUID, val title: String) : TaskListener, Parcelable {
 
+    constructor(task: Task) : this(task.id, task.title)
 
     constructor(parcel: Parcel) : this(
             UUID.fromString(parcel.readString()),

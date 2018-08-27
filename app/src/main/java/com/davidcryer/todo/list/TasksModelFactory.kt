@@ -5,7 +5,7 @@ import java.util.*
 class TasksModelFactory {
 
     fun create(): TasksModel {
-        return TasksModel(listOf(
+        return TasksModel(mutableListOf(
                 UiTask(UUID.randomUUID(), "First Task"),
                 UiTask(UUID.randomUUID(), "Second Task")
         ))

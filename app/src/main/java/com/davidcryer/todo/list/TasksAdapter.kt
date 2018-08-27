@@ -13,6 +13,11 @@ class TasksAdapter : RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun append(task: UiTask) {
+        tasks += task
+        notifyItemInserted(itemCount - 1)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_task, parent, false)
         return ViewHolder(view as TaskView)
