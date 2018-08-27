@@ -11,7 +11,7 @@ class SharedPreferencesTaskStore(
         private val taskFactory: TaskFactory
 ) : TaskStore {
     companion object {
-        private val PREFS_KEY = "tasks"
+        private const val PREFS_KEY = "tasks"
 
         fun create(context: Context, gson: Gson, taskFactory: TaskFactory): SharedPreferencesTaskStore {
             val sharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
