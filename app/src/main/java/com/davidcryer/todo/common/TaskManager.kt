@@ -7,13 +7,13 @@ import java.util.*
 class TaskManager(private val store: TaskStore) {
     private val listeners = mutableMapOf<UUID, MutableSet<TaskListener>>()
 
-    fun get(id: UUID): Task {
+    fun get(id: UUID): Task? {
         return store.get(id)
     }
 
     @Throws(BadTaskException::class)
     fun add(submission: TaskSubmission): Task {
-        return Task.from(submission)
+        return Task.from(submission).let { store.set(it) }
     }
 
     fun attach(id: UUID, listener: TaskListener) {

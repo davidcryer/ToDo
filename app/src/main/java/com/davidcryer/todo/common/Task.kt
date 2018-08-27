@@ -5,6 +5,10 @@ import java.util.*
 
 class Task(val id: UUID, val title: String) {
 
+    fun deflate(): DbTask {
+        return DbTask(id, title)
+    }
+
     companion object {
 
         fun from(submission: TaskSubmission): Task {
