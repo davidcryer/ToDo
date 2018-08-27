@@ -20,13 +20,7 @@ class SharedPreferencesTaskStore(
     }
 
     override fun get(id: UUID): Task? {//TODO optimise (probably with cache)
-        val tasks = getAll()
-        for (task in tasks) {
-            if (task.id == id) {
-                return task
-            }
-        }
-        return null
+        return sharedPreferences.getString(id.toString(), null)?.let { fromJson(it) }
     }
 
     override fun getAll(): List<Task> {
@@ -42,7 +36,7 @@ class SharedPreferencesTaskStore(
     }
 
     override fun set(task: Task): Task {
-        return task.also { sharedPreferences.edit().putString(task.toString(), gson.toJson(task.deflate())).apply() }
+        return task.also { sharedPreferences.edit().putString(task.id.toString(), gson.toJson(task.deflate())).apply() }
     }
 
     override fun delete(task: Task) {

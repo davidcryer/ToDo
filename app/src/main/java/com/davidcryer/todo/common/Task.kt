@@ -5,7 +5,7 @@ import java.util.*
 class Task(val id: UUID, val title: String, var done: Boolean) {
 
     fun toggleDone(): Boolean {
-        return let { !done }.apply { this@Task.done = this }
+        return let { !done }.also { this@Task.done = it }
     }
 
     fun deflate(): DbTask {

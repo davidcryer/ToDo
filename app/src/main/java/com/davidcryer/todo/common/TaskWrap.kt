@@ -2,18 +2,19 @@ package com.davidcryer.todo.common
 
 import java.util.*
 
-class TaskWrap(private val taskProvider: () -> Task?) {
+class TaskWrap(private val id: UUID, private val store: TaskStore) {
     private val listeners = mutableSetOf<TaskListener>()
 
     fun task(request: TaskRequest) {
-        taskProvider()?.let { request.response(it.id, it.title, it.done) }
+        store.get(id)?.let { request.response(it.id, it.title, it.done) }
     }
 
     fun toggleDone(ignore: TaskListener, callback: (Boolean) -> Unit) {
-        taskProvider()?.toggleDone()?.also {
-            done -> notify(ignore) { it.onChangeDone(done) }
-        }?.also {
-            callback(it)
+        store.get(id)?.also { task ->
+            val done = task.toggleDone()
+            store.set(task)
+            notify(ignore) { it.onChangeDone(done) }
+            callback(done)
         }
     }
 

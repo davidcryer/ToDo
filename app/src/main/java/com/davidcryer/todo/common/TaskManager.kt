@@ -9,7 +9,7 @@ class TaskManager(private val store: TaskStore, private val taskFactory: TaskFac
     private val addTaskListeners = mutableSetOf<AddTaskListener>()
 
     fun get(id: UUID): TaskWrap {
-        return MapUtils.getValue(taskWraps, id) { TaskWrap { store.get(id) } }
+        return MapUtils.getValue(taskWraps, id) { TaskWrap(id, store) }
     }
 
     @Throws(BadTaskException::class)
