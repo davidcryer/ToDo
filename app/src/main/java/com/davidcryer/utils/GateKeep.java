@@ -1,4 +1,4 @@
-package com.davidcryer;
+package com.davidcryer.utils;
 
 public class GateKeep {
 
