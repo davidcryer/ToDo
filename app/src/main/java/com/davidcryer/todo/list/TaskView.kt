@@ -6,6 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.davidcryer.todo.R
+import com.davidcryer.utils.SetFlagOp
+import com.davidcryer.utils.UnsetFlagOp
 import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -19,10 +21,8 @@ class TaskView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     }
 
     fun setDone(done: Boolean) {
-        if (done) {
-            title.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        } else {
-            title.paintFlags = title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-        }
+        val strike = Paint.STRIKE_THRU_TEXT_FLAG
+        val op = if (done) SetFlagOp(strike) else UnsetFlagOp(strike)
+        title.paintFlags = op.on(title.paintFlags)
     }
 }
