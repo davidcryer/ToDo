@@ -2,10 +2,7 @@ package com.davidcryer.todo
 
 import android.content.Context
 import com.davidc.uiwrapper.UiWrapperFactoryProvider
-import com.davidcryer.todo.common.SharedPreferencesTaskStore
-import com.davidcryer.todo.common.TaskFactory
-import com.davidcryer.todo.common.TaskManager
-import com.davidcryer.todo.common.TaskStore
+import com.davidcryer.todo.common.*
 import com.google.gson.Gson
 
 class Application : android.app.Application(), UiWrapperFactoryProvider<UiWrapperFactory> {
@@ -27,16 +24,23 @@ class Application : android.app.Application(), UiWrapperFactoryProvider<UiWrappe
         }
 
         private fun createTaskManager(context: Context): TaskManager {
-            val factory = createTaskFactory()
-            return TaskManager(createTaskStore(context, factory), factory)
+            return TaskManager(createTaskStore(context))
+        }
+
+        private fun createTaskStore(context: Context): TaskStore {
+            return TaskStore(createTaskDatabase(context), createTaskCache())
+        }
+
+        private fun createTaskCache(): TaskCache {
+            return InMemoryTaskCache()
+        }
+
+        private fun createTaskDatabase(context: Context): TaskDatabase {
+            return SharedPreferencesTaskDatabase.create(context, Gson(), createTaskFactory())
         }
 
         private fun createTaskFactory(): TaskFactory {
             return TaskFactory()
-        }
-
-        private fun createTaskStore(context: Context, taskFactory: TaskFactory): TaskStore {
-            return SharedPreferencesTaskStore.create(context, Gson(), taskFactory)
         }
     }
 }

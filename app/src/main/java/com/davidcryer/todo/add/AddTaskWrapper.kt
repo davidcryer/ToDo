@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.davidc.uiwrapper.UiWrapper
 import com.davidcryer.todo.common.BadTaskException
 import com.davidcryer.todo.common.TaskManager
+import com.davidcryer.todo.common.TaskSubmission
 
 class AddTaskWrapper(
         model: AddTaskModel,

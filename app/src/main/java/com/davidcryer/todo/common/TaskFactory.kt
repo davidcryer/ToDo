@@ -1,6 +1,5 @@
 package com.davidcryer.todo.common
 
-import com.davidcryer.todo.add.TaskSubmission
 import java.util.*
 
 class TaskFactory {

@@ -2,9 +2,27 @@ package com.davidcryer.todo.common
 
 import java.util.*
 
-interface TaskStore {
-    fun get(id: UUID): Task?
-    fun getAll(): List<Task>
-    fun set(task: Task): Task
-    fun delete(task: Task)
+class TaskStore(private val database: TaskDatabase, private val cache: TaskCache) {
+
+    fun get(id: UUID): Task? {
+        return cache.get(id) { database.get(id) }
+    }
+
+    fun submit(submission: TaskSubmission): Task {
+        return database.insert(submission).also { cache.set(it) }
+    }
+
+    fun set(task: Task) {
+        task.apply {
+            database.update(task)
+            cache.set(task)
+        }
+    }
+
+    fun remove(task: Task) {
+        task.apply {
+            database.delete(task)
+            cache.remove(task)
+        }
+    }
 }

@@ -5,21 +5,21 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import java.util.*
 
-class SharedPreferencesTaskStore(
+class SharedPreferencesTaskDatabase(
         private val sharedPreferences: SharedPreferences,
         private val gson: Gson,
         private val taskFactory: TaskFactory
-) : TaskStore {
+) : TaskDatabase {
     companion object {
         private const val PREFS_KEY = "tasks"
 
-        fun create(context: Context, gson: Gson, taskFactory: TaskFactory): SharedPreferencesTaskStore {
+        fun create(context: Context, gson: Gson, taskFactory: TaskFactory): SharedPreferencesTaskDatabase {
             val sharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
-            return SharedPreferencesTaskStore(sharedPreferences, gson, taskFactory)
+            return SharedPreferencesTaskDatabase(sharedPreferences, gson, taskFactory)
         }
     }
 
-    override fun get(id: UUID): Task? {//TODO optimise (probably with cache)
+    override fun get(id: UUID): Task? {
         return sharedPreferences.getString(id.toString(), null)?.let { fromJson(it) }
     }
 
@@ -35,8 +35,15 @@ class SharedPreferencesTaskStore(
         return gson.fromJson(json.toString(), DbTask::class.java).let { taskFactory.from(it) }
     }
 
-    override fun set(task: Task): Task {
-        return task.also { sharedPreferences.edit().putString(task.id.toString(), gson.toJson(task.deflate())).apply() }
+    override fun insert(submission: TaskSubmission): Task {
+        return taskFactory.from(submission).also {
+            sharedPreferences.edit().putString(it.id.toString(), gson.toJson(it.deflate())).apply()
+        }
+
+    }
+
+    override fun update(task: Task) {
+        sharedPreferences.edit().putString(task.id.toString(), gson.toJson(task.deflate())).apply()
     }
 
     override fun delete(task: Task) {

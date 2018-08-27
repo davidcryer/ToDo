@@ -1,12 +1,11 @@
 package com.davidcryer.todo.add
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import com.davidcryer.todo.R
+import com.davidcryer.todo.common.TaskSubmission
 import com.davidcryer.utils.SimpleTextWatcher
 import kotlinx.android.synthetic.main.layout_add_task.view.*
 

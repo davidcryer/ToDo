@@ -13,12 +13,12 @@ class TaskWrap(private val id: UUID, private val store: TaskStore) {
         store.get(id)?.also { task ->
             val done = task.toggleDone()
             store.set(task)
-            notify(ignore) { it.onChangeDone(done) }
+            notifyListeners(ignore) { it.onChangeDone(done) }
             callback(done)
         }
     }
 
-    private fun notify(ignore: TaskListener, notification: (TaskListener) -> Unit) {
+    private fun notifyListeners(ignore: TaskListener, notification: (TaskListener) -> Unit) {
         listeners.forEach { l -> l.takeIf { it != ignore }.run { notification(l) } }
     }
 
