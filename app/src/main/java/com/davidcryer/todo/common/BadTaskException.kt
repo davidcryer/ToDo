@@ -6,7 +6,7 @@ class BadTaskException(val title: String?) : Exception(message(title)) {
 
         fun message(title: String?): String {
             var message = "Error creating new Task:\n"
-            message += title.let { "\tTitle must not be null\n" }
+            message += title.let { "\t$it\n" }
             return message
         }
     }

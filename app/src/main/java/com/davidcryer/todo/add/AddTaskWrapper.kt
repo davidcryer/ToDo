@@ -17,7 +17,7 @@ class AddTaskWrapper(
                     taskManager.add(submission)
                     ui.dismiss()
                 } catch (e: BadTaskException) {
-                    e.title?.let { ui.showError(it) }//TODO or set on model
+                    e.title?.let { ui.showTitleError("Enter a title") }//TODO or set error in model
                 }
             }
         }

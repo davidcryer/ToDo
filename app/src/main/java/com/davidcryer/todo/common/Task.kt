@@ -19,7 +19,7 @@ class Task(val id: UUID, val title: String) {
         @Throws(BadTaskException::class)
         private fun gateKeepValidTask(submission: TaskSubmission) {
             var error = false
-            val badTitle = if (submission.title.isEmpty()) { error = true; submission.title } else null
+            val badTitle = if (submission.title.isEmpty()) { error = true; "Title must not be empty" } else null
             if (error) {
                 throw BadTaskException(badTitle)
             }

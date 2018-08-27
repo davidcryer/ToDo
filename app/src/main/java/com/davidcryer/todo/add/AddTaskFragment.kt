@@ -11,7 +11,7 @@ import com.davidcryer.todo.UiWrapperFactory
 class AddTaskFragment : UiWrapperFactoryDialogFragment<AddTaskUi, AddTaskUi.Listener, UiWrapperFactory>() {
     private var layout: AddTaskView? = null
     private val ui = object : AddTaskUi {
-        override fun showError(title: String) { layout?.titleError(title) }
+        override fun showTitleError(title: String) { layout?.titleError(title) }
         override fun dismiss() { dialog?.dismiss() }
     }
 
