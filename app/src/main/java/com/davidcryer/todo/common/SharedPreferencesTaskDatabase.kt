@@ -35,6 +35,7 @@ class SharedPreferencesTaskDatabase(
         return gson.fromJson(json.toString(), DbTask::class.java).let { taskFactory.from(it) }
     }
 
+    @Throws(BadTaskException::class)
     override fun insert(submission: TaskSubmission): Task {
         return taskFactory.from(submission).also {
             sharedPreferences.edit().putString(it.id.toString(), gson.toJson(it.deflate())).apply()

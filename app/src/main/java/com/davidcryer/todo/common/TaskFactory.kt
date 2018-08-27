@@ -12,6 +12,7 @@ class TaskFactory {
         return create(task.id, task.title, task.done)
     }
 
+    @Throws(BadTaskException::class)
     fun from(submission: TaskSubmission): Task {
         gateKeepValidTask(submission)
         return create(UUID.randomUUID(), submission.title, done = false)

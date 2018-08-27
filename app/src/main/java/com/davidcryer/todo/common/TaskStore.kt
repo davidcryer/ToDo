@@ -8,6 +8,7 @@ class TaskStore(private val database: TaskDatabase, private val cache: TaskCache
         return cache.get(id) { database.get(id) }
     }
 
+    @Throws(BadTaskException::class)
     fun submit(submission: TaskSubmission): Task {
         return database.insert(submission).also { cache.set(it) }
     }
