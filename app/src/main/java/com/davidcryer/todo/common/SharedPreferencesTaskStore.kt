@@ -7,14 +7,15 @@ import java.util.*
 
 class SharedPreferencesTaskStore(
         private val sharedPreferences: SharedPreferences,
-        private val gson: Gson
+        private val gson: Gson,
+        private val taskFactory: TaskFactory
 ) : TaskStore {
     companion object {
         private val PREFS_KEY = "tasks"
 
-        fun create(context: Context, gson: Gson): SharedPreferencesTaskStore {
+        fun create(context: Context, gson: Gson, taskFactory: TaskFactory): SharedPreferencesTaskStore {
             val sharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
-            return SharedPreferencesTaskStore(sharedPreferences, gson)
+            return SharedPreferencesTaskStore(sharedPreferences, gson, taskFactory)
         }
     }
 
@@ -37,7 +38,7 @@ class SharedPreferencesTaskStore(
     }
 
     private fun fromJson(json: Any): Task {
-        return gson.fromJson(json.toString(), DbTask::class.java).inflate()
+        return gson.fromJson(json.toString(), DbTask::class.java).let { taskFactory.from(it) }
     }
 
     override fun set(task: Task): Task {

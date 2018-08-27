@@ -7,23 +7,21 @@ import org.junit.Assert.*
 class MapUtilsTest {
 
     @Test
-    fun getColValue_createNewCollection() {
+    fun getColValue_newVal() {
         val key = "key"
-        val map = mutableMapOf<String, MutableCollection<Any>>()
-        val res = MapUtils.getColValue(map, key) { mutableListOf() }
-        assertTrue(res.isEmpty())
+        val map = mutableMapOf<String, Any>()
+        val res = MapUtils.getValue(map, key) { Any() }
         assertSame(res, map[key])
     }
 
     @Test
-    fun getColValue_getExistingCollection() {
+    fun getValue_getExistingCollection() {
         val key = "key"
-        val map = mutableMapOf<String, MutableCollection<Any>>()
-        val col = mutableListOf<Any>()
-        map[key] = col
-        val res = MapUtils.getColValue(map, key) { mutableListOf() }
-        assertTrue(col.isEmpty())
-        assertSame(col, map[key])
-        assertSame(col, res)
+        val map = mutableMapOf<String, Any>()
+        val value = Any()
+        map[key] = value
+        val res = MapUtils.getValue(map, key) { Any() }
+        assertSame(value, map[key])
+        assertSame(value, res)
     }
 }

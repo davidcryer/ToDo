@@ -2,11 +2,7 @@ package com.davidcryer.utils
 
 object MapUtils {
 
-    fun <K, V, ColV> getColValue(
-            map: MutableMap<K, V>,
-            k: K,
-            emptyCol: () -> V
-    ): MutableCollection<ColV> where V : MutableCollection<ColV> {
-        return map[k] ?: emptyCol().also { map[k] = it }
+    fun <K, V> getValue(map: MutableMap<K, V>, k: K, newVal: () -> V): V {
+        return map[k] ?: newVal().also { map[k] = it }
     }
 }

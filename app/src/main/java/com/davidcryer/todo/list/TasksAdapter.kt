@@ -34,8 +34,7 @@ class TasksAdapter : RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
     class ViewHolder(private val v: TaskView) : RecyclerView.ViewHolder(v) {
 
         fun bind(task: UiTask) {
-            v.setTitle(task.title)
-            v.setDone(task.done)
+            v.setTask(task)
         }
     }
 }

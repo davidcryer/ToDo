@@ -12,10 +12,6 @@ class DbTask(val id: UUID, val title: String, val done: Boolean) : Parcelable {
             done = parcel.readByte() != 0.toByte()
     )
 
-    fun inflate(): Task {
-        return Task(id, title, done)
-    }
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id.toString())
         parcel.writeString(title)

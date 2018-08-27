@@ -11,9 +11,15 @@ import com.davidcryer.utils.UnsetFlagOp
 import kotlinx.android.synthetic.main.item_task.view.*
 
 class TaskView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+    private var task: UiTask? = null
 
     init {
         View.inflate(context, R.layout.item_task, this)
+    }
+
+    fun setTask(task: UiTask) {
+        this.task?.detach(this)
+        this.task = task.also { it.attach(this) }
     }
 
     fun setTitle(title: String) {

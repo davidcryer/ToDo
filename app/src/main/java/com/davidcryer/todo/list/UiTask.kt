@@ -8,6 +8,8 @@ import com.davidcryer.todo.common.TaskManager
 import java.util.*
 
 class UiTask(private val id: UUID, val title: String, var done: Boolean) : TaskListener, Parcelable {
+    private var taskManager: TaskManager? = null
+    private var view: TaskView? = null
 
     constructor(task: Task) : this(task.id, task.title, task.done)
 
@@ -18,11 +20,27 @@ class UiTask(private val id: UUID, val title: String, var done: Boolean) : TaskL
     )
 
     fun attach(taskManager: TaskManager) {
-        taskManager.attach(id, this)
+        this.taskManager = taskManager.also{ it.get(id).attach(listener = this) }
     }
 
     fun detach(taskManager: TaskManager) {
-        taskManager.detach(id, this)
+        taskManager.get(id).detach(this).also { this.taskManager = null }
+    }
+
+    fun attach(view: TaskView) {
+        this.view = view.also { _ ->
+            view.setTitle(title)
+            view.setDone(done)
+            view.setOnClickListener { v -> taskManager?.get(id)?.toggleDone(ignore = this) { view.setDone(it) } }
+        }
+    }
+
+    fun detach(view: TaskView) {
+        view.setOnClickListener(null).also { this.view = null }
+    }
+
+    override fun onChangeDone(done: Boolean) {
+        view?.setDone(done)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
