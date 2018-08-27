@@ -4,17 +4,22 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.util.*
 
-class DbTask(val id: UUID, val title: String) : Parcelable {
+class DbTask(val id: UUID, val title: String, val done: Boolean) : Parcelable {
 
-    constructor(parcel: Parcel) : this(UUID.fromString(parcel.readString()), parcel.readString())
+    constructor(parcel: Parcel) : this(
+            id = UUID.fromString(parcel.readString()),
+            title = parcel.readString(),
+            done = parcel.readByte() != 0.toByte()
+    )
 
     fun inflate(): Task {
-        return Task(id, title)
+        return Task(id, title, done)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id.toString())
         parcel.writeString(title)
+        parcel.writeByte(if (done) 1 else 0)
     }
 
     override fun describeContents(): Int {

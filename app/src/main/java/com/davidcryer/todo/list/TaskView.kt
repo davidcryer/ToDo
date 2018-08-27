@@ -1,6 +1,7 @@
 package com.davidcryer.todo.list
 
 import android.content.Context
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -13,7 +14,15 @@ class TaskView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         View.inflate(context, R.layout.item_task, this)
     }
 
-    fun setTitle(t: String) {
-        title.text = t
+    fun setTitle(title: String) {
+        this.title.text = title
+    }
+
+    fun setDone(done: Boolean) {
+        if (done) {
+            title.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        } else {
+            title.paintFlags = title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        }
     }
 }

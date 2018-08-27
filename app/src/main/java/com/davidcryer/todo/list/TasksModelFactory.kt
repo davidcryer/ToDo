@@ -6,8 +6,8 @@ class TasksModelFactory {
 
     fun create(): TasksModel {
         return TasksModel(mutableListOf(
-                UiTask(UUID.randomUUID(), "First Task"),
-                UiTask(UUID.randomUUID(), "Second Task")
+                UiTask(UUID.randomUUID(), "First Task", false),
+                UiTask(UUID.randomUUID(), "Second Task", false)
         ))
     }
 }

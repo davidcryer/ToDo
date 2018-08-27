@@ -7,13 +7,14 @@ import com.davidcryer.todo.common.TaskListener
 import com.davidcryer.todo.common.TaskManager
 import java.util.*
 
-class UiTask(private val id: UUID, val title: String) : TaskListener, Parcelable {
+class UiTask(private val id: UUID, val title: String, var done: Boolean) : TaskListener, Parcelable {
 
-    constructor(task: Task) : this(task.id, task.title)
+    constructor(task: Task) : this(task.id, task.title, task.done)
 
     constructor(parcel: Parcel) : this(
-            UUID.fromString(parcel.readString()),
-            parcel.readString()
+            id = UUID.fromString(parcel.readString()),
+            title = parcel.readString(),
+            done = parcel.readByte() != 0.toByte()
     )
 
     fun attach(taskManager: TaskManager) {
@@ -27,6 +28,7 @@ class UiTask(private val id: UUID, val title: String) : TaskListener, Parcelable
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id.toString())
         parcel.writeString(title)
+        parcel.writeByte(if (done) 1 else 0)
     }
 
     override fun describeContents(): Int {
