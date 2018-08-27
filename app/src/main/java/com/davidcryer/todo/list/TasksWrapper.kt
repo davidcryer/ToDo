@@ -2,21 +2,26 @@ package com.davidcryer.todo.list
 
 import android.os.Bundle
 import com.davidc.uiwrapper.UiWrapper
+import com.davidcryer.todo.common.TaskManager
 
-class TasksWrapper(uiModel: TasksModel) : UiWrapper<TasksUi, TasksUi.Listener, TasksModel>(uiModel) {
+class TasksWrapper(
+        private val model: TasksModel,
+        private val taskManager: TaskManager
+) : UiWrapper<TasksUi, TasksUi.Listener, TasksModel>(model) {
 
     override fun uiListener(): TasksUi.Listener {
-        return object: TasksUi.Listener {}
+        return object : TasksUi.Listener {
+            override fun onClickAddTask(ui: TasksUi) { ui.openAddTask() }
+        }
     }
 
     companion object {
-        fun create(tasksModelFactory: TasksModelFactory): TasksWrapper {
-            return TasksWrapper(tasksModelFactory.create())
+        fun create(tasksModelFactory: TasksModelFactory, taskManager: TaskManager): TasksWrapper {
+            return TasksWrapper(tasksModelFactory.create(), taskManager)
         }
 
-        fun recreate(tasksModelFactory: TasksModelFactory, savedState: Bundle): TasksWrapper {
-            val tasksModel: TasksModel? = savedUiModel(savedState)
-            return if (tasksModel == null) create(tasksModelFactory) else TasksWrapper(tasksModel)
+        fun recreate(savedState: Bundle, taskManager: TaskManager): TasksWrapper? {
+            return (savedUiModel(savedState) as? TasksModel)?.let { TasksWrapper(it, taskManager) }
         }
     }
 }

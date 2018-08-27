@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ToDo</string>
+
+    <string name="tasks.title">To-Do\'s</string>
+    <string name="tasks.menu.add">Add task</string>
+
+    <string name="add_task.title">Add task</string>
+    <string name="add_task.field.title">Title</string>
+    <string name="add_task.create">Create</string>
+    <string name="add_task.cancel">Cancel</string>
 </resources>
