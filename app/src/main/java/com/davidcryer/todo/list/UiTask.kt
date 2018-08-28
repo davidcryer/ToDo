@@ -20,6 +20,7 @@ class UiTask(private val id: UUID, val title: String, var done: Boolean) : TaskL
     )
 
     fun attach(taskManager: TaskManager) {
+        this.taskManager?.also { detach(it) }
         this.taskManager = taskManager.also{ it.get(id).attach(listener = this) }
     }
 

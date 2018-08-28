@@ -1,7 +1,7 @@
 package com.davidcryer.todo.list
 
 interface TasksUi {
-    fun show(tasks: List<UiTask>)
+    fun set(tasks: List<UiTask>)
     fun append(task: UiTask)
     fun openAddTask()
 

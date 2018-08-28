@@ -14,6 +14,10 @@ class InMemoryTaskCache : TaskCache {
         tasks[task.id] = task
     }
 
+    override fun setAll(tasks: Collection<Task>) {
+        this.tasks.clear().also { _ -> tasks.forEach { set(it) } }
+    }
+
     override fun remove(task: Task) {
         tasks -= task.id
     }

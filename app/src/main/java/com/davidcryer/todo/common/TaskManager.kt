@@ -11,6 +11,10 @@ class TaskManager(private val taskStore: TaskStore) {
         return MapUtils.getValue(taskWraps, id) { TaskWrap(id, taskStore) }
     }
 
+    fun getAll(): List<Task> {
+        return taskStore.getAll()
+    }
+
     @Throws(BadTaskException::class)
     fun add(submission: TaskSubmission): Task {
         return taskStore.submit(submission).also { notifyListenersOfTaskAdded(it) }

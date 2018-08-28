@@ -4,17 +4,22 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.davidc.uiwrapper.UiModel
 
-class TasksModel(val tasks: MutableList<UiTask>) : UiModel<TasksUi> {
+class TasksModel(var tasks: MutableList<UiTask>) : UiModel<TasksUi> {
 
     constructor(parcel: Parcel) : this(parcel.createTypedArrayList(UiTask.CREATOR))
 
     override fun onto(ui: TasksUi) {
-        ui.show(tasks)
+        ui.set(tasks)
+    }
+
+    fun set(ui: TasksUi?, tasks: MutableList<UiTask>) {
+        ui?.set(tasks)
+        this.tasks = tasks
     }
 
     fun append(ui: TasksUi?, task: UiTask) {
         ui?.let { ui.append(task) }
-        tasks += task
+        tasks.add(task)
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {

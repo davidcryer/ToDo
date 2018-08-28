@@ -14,7 +14,7 @@ class TasksFragment : UiWrapperFactoryFragment<TasksUi, TasksUi.Listener, UiWrap
     private val tasksAdapter = TasksAdapter()
     private var navigator: Navigator? = null
     private val ui = object : TasksUi {
-        override fun show(tasks: List<UiTask>) { tasksAdapter.tasks(tasks) }
+        override fun set(tasks: List<UiTask>) { tasksAdapter.tasks(tasks) }
         override fun append(task: UiTask) {
             tasksAdapter.append(task)
         }
