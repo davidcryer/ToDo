@@ -30,10 +30,8 @@ class TasksModel(var tasks: MutableList<UiTask>) : UiModel<TasksUi> {
         return 0
     }
 
-    companion object {
-        @JvmField val CREATOR = object : Parcelable.Creator<TasksModel> {
-            override fun createFromParcel(source: Parcel): TasksModel{ return TasksModel(source) }
-            override fun newArray(size: Int): Array<TasksModel?> { return arrayOfNulls(size) }
-        }
+    companion object CREATOR : Parcelable.Creator<TasksModel> {
+        override fun createFromParcel(source: Parcel): TasksModel{ return TasksModel(source) }
+        override fun newArray(size: Int): Array<TasksModel?> { return arrayOfNulls(size) }
     }
 }
