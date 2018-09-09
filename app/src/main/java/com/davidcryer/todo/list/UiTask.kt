@@ -5,11 +5,13 @@ import android.os.Parcelable
 import com.davidcryer.todo.common.Task
 import com.davidcryer.todo.common.TaskListener
 import com.davidcryer.todo.common.TaskManager
+import java.time.Instant
 import java.util.*
 
 class UiTask(private val id: UUID, val title: String, var done: Boolean) : TaskListener, Parcelable {
     private var taskManager: TaskManager? = null
     private var view: TaskView? = null
+    private var lastUpdated = Instant.now()
 
     constructor(task: Task) : this(task.id, task.title, task.done)
 
@@ -21,7 +23,8 @@ class UiTask(private val id: UUID, val title: String, var done: Boolean) : TaskL
 
     fun attach(taskManager: TaskManager) {
         this.taskManager?.also { detach(it) }
-        this.taskManager = taskManager.also{ it.get(id).attach(listener = this) }
+        this.taskManager = taskManager
+                .also{ it.get(id).attach(listener = this) }
     }
 
     fun detach(taskManager: TaskManager) {
@@ -40,8 +43,9 @@ class UiTask(private val id: UUID, val title: String, var done: Boolean) : TaskL
         view.setOnClickListener(null).also { this.view = null }
     }
 
-    override fun onChangeDone(done: Boolean) {
+    override fun onChangeDone(done: Boolean, timestamp: Instant) {
         view?.setDone(done)
+        lastUpdated = timestamp
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
