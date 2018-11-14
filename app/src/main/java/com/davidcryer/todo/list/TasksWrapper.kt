@@ -8,7 +8,7 @@ import com.davidcryer.todo.common.TaskManager
 import java.time.Instant
 
 class TasksWrapper(
-        private val model: TasksModel,
+        model: TasksModel,
         private val taskManager: TaskManager
 ) : UiWrapper<TasksUi, TasksUi.Listener, TasksModel>(model) {
     private val listener = object : TasksUi.Listener {
@@ -25,17 +25,21 @@ class TasksWrapper(
     override fun registerResources() {
         super.registerResources()
         taskManager.getUpdates(lastUpdated) { tasks, timestamp ->
-            model.set(ui(), tasks.map(::UiTask).toMutableList())
+            uiModel().set(tasks.map(::UiTask).toMutableList())
             lastUpdated = timestamp
         }
         taskManager.attach(addTaskListener)
-        model.tasks.forEach { it.attach(taskManager) }
+        uiModel().tasks.forEach { it.attach(taskManager) }
     }
 
     override fun unregisterResources() {
         super.unregisterResources()
         taskManager.detach(addTaskListener)
-        model.tasks.forEach { it.detach(taskManager) }
+        uiModel().tasks.forEach { it.detach(taskManager) }
+    }
+
+    override fun setUp(ui: TasksUi) {
+        ui.set(uiModel().tasks)
     }
 
     override fun uiListener(): TasksUi.Listener {

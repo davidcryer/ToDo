@@ -13,11 +13,11 @@ class TaskManager(private val taskStore: TaskStore) {
         return MapUtils.getValue(taskWraps, id) { TaskWrap(id, taskStore) }
     }
 
-    fun getAll(): List<Task> {
-        return taskStore.getAll()
+    fun getAll(): List<TaskWrap> {
+        return taskStore.getAll().map { t -> TaskWrap(t.id, taskStore) }
     }
 
-    fun getUpdates(timestamp: Instant?, callback: (List<Task>, Instant) -> Unit) {
+    fun getUpdates(timestamp: Instant?, callback: (List<TaskWrap>, Instant) -> Unit) {
         if (timestamp == null || timestamp < listChanged) {
             callback(getAll(), listChanged)
         }

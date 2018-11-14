@@ -4,16 +4,11 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.davidc.uiwrapper.UiModel
 
-class TasksModel(var tasks: MutableList<UiTask>) : UiModel<TasksUi> {
+class TasksModel(var tasks: MutableList<UiTask>) : UiModel {
 
     constructor(parcel: Parcel) : this(parcel.createTypedArrayList(UiTask.CREATOR))
 
-    override fun onto(ui: TasksUi) {
-        ui.set(tasks)
-    }
-
-    fun set(ui: TasksUi?, tasks: MutableList<UiTask>) {
-        ui?.set(tasks)
+    fun set(tasks: MutableList<UiTask>) {
         this.tasks = tasks
     }
 
